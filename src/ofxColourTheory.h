@@ -355,9 +355,7 @@ class ofxColourTheory {
         colors = sorted;
         
     }
-    
-    
-    /**
+	/**
      * Finds and returns the darkest color of the list.
      * 
      * @return darkest color or null if there're no entries yet.
@@ -430,10 +428,6 @@ class ofxColourTheory {
                              (sin(hue2) * b.getSaturation()/255.0f), b.getBrightness()/255.0f);
         return v1.distance(v2);
     }
-    
-    
-    
-    
     
     static ColourConstraints getColourConstraints(ColourShade shade){
         
