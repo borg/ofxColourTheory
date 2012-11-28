@@ -38,6 +38,7 @@ vector<ofColor> ofxColourTheory::createColoursFromStrategy(ofColor col,ColourStr
             break;   
             
         default:
+			//DEBUG:: return error on unimplemented strategies
             break;
     }
     return list;

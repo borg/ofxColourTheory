@@ -4,8 +4,7 @@
  http://toxiclibs.org/
  *
  *  Created by Andreas Borg on 07/07/2012
- *  Copyright 2012 __MyCompanyName__. All rights reserved.
- *
+ *  
  */
 
 #ifndef _ofxColourTheory
@@ -43,47 +42,36 @@ typedef struct ColourConstraints{
  * Shade definition: saturation 30-70%, brightness: 90-100%
  LIGHT = new ColorRange(null, new FloatRange( 0.3f, 0.7f), new FloatRange(0.9f, 1.0f), null, new FloatRange(0.15f, 0.30f), null, "light");
 
-
  * Shade definition: saturation 70-100%, brightness: 15-40%
  DARK = new ColorRange(null, new FloatRange(0.7f, 1.0f), new FloatRange(0.15f, 0.4f), null, null,  new FloatRange(0.5f, 0.75f), "dark");
-
 
  * Shade definition: saturation 80-100%, brightness: 80-100%
  BRIGHT = new ColorRange(null,new FloatRange(0.8f, 1.0f), new FloatRange(0.8f, 1.0f), "bright");
 
-
  * Shade definition: saturation 15-30%, brightness: 70-100%
  WEAK = new ColorRange(null, new FloatRange(0.15f, 0.3f), new FloatRange(0.7f, 1.0f), null, new FloatRange(0.2f, 0.2f), null, "weak");
-
 
  * Shade definition: saturation 25-35%, brightness: 30-70%
  NEUTRAL = new ColorRange(null,new FloatRange(0.25f, 0.35f), new FloatRange(0.3f, 0.7f), null, new FloatRange(0.15f, 0.15f), new FloatRange(0.9f, 1), "neutral");
 
-
  * Shade definition: saturation 40-80%, brightness: 80-100%
  FRESH = new ColorRange(null, new FloatRange( 0.4f, 0.8f), new FloatRange(0.8f, 1.0f), null, new FloatRange(0.05f, 0.3f), new FloatRange(0.8f, 1.0f), "fresh");
-
 
  * Shade definition: saturation 20-30%, brightness: 60-90%
 SOFT = new ColorRange(null, new FloatRange(0.2f, 0.3f), new FloatRange(0.6f, 0.9f), null, new FloatRange(0.05f, 0.15f), new FloatRange(0.6f, 0.9f), "soft");
 
-
  * Shade definition: saturation 90-100%, brightness: 40-100%
  HARD = new ColorRange(null, new FloatRange( 0.9f, 1.0f), new FloatRange(0.4f, 1.0f), "hard");
-
 
  * Shade definition: saturation 60-90%, brightness: 40-90%
  WARM = new ColorRange(null, new FloatRange(0.6f, 0.9f), new FloatRange(0.4f, 0.9f), null, new FloatRange(0.2f,0.2f), new FloatRange(0.8f, 1.0f), "warm");
 
-
  * Shade definition: saturation 5-20%, brightness: 90-100%
 COOL = new ColorRange(null, new FloatRange( 0.05f, 0.2f), new FloatRange(0.9f, 1.0f), null, null, new FloatRange(0.95f, 1.0f), "cool");
-
 
  * Shade definition: saturation 90-100%, brightness: 20-35% or 80-100%
  INTENSE = new ColorRange(null,new FloatRange(0.9f, 1.0f), new FloatRange(0.2f, 0.35f), "intense").addBrightnessRange(new FloatRange(0.8f, 1.0f));
 */
-
 
 typedef enum ColourShade{
     CT_LIGHT,
@@ -209,13 +197,7 @@ class ofxColourTheory {
      
      */
      static ofColor rotateRYB(ofColor col,int theta) {
-         
-       
-        // ofLog()<<"hue :"<<col.getHue()<<" sat: " <<col.getSaturation() <<" b: "<<col.getBrightness() <<endl;
-         
-         
-         
-         
+
         float h = (float) col.getHue()/255.0 * 360;
         vector<float> hsb;
         hsb.push_back((float) col.getHue()/255.0) ;
@@ -223,15 +205,10 @@ class ofxColourTheory {
         hsb.push_back((float) col.getBrightness()/255.0) ;
         theta %= 360;
         
-         
-        
-          
-         
         float resultHue = 0;
         
         vector<ofVec2f> RYB_WHEEL = getRYB_WHEEL();
-            
-            
+                  
         for (int i = 0; i < RYB_WHEEL.size() - 1; i++) {
             ofVec2f p = RYB_WHEEL[i];
             ofVec2f q = RYB_WHEEL[i + 1];
@@ -263,7 +240,6 @@ class ofxColourTheory {
             }
         }
         
-        
        // col.setHsb(<#float hue#>, <#float saturation#>, <#float brightness#>)
         hsb[0] = fmod(h, 360) / 360.0f;
         
@@ -276,9 +252,7 @@ class ofxColourTheory {
         return rotateRYB(col,180);
     }
     
-    
-    
-    
+
     static float wrap(float x, float min, float threshold,float plus) {
         if (x - min < threshold) {
             return x + plus;
@@ -286,13 +260,6 @@ class ofxColourTheory {
             return x - min;
         }
     }
-    
-    
-    
-    
-    
-    
-    
     /**
      * Sorts the list by relative distance to each predecessor, starting with
      * the darkest color in the list.
@@ -311,8 +278,6 @@ class ofxColourTheory {
         // put it in the sorted list as starting element.
         vector<ofColor> sorted;
         sorted.push_back(root);
-        
-        
         
         // Remove the darkest color from the stack,
         
@@ -451,48 +416,89 @@ class ofxColourTheory {
                 cr.white  = ofVec2f(0.5f, 0.75f);
                 cr.name = "dark";
                 break;   
-          /*  case CT_BRIGHT:
-                new ColorRange(null,new FloatRange(0.8f, 1.0f), new FloatRange(0.8f, 1.0f), "bright");
-
-                list = createRangeFromMonochrome(col);
+           case CT_BRIGHT:
+			   cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.8f, 1.0f);
+               cr.brightnessConstraint = ofVec2f(0.8f, 1.0f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.0f, 0.0f); //default
+               cr.white  = ofVec2f(1.0f, 1.0f);
+               cr.name = "bright";
                 break;  
             case CT_WEAK:
-                 new ColorRange(null, new FloatRange(0.15f, 0.3f), new FloatRange(0.7f, 1.0f), null, new FloatRange(0.2f, 0.2f), null, "weak");
-                list = createRangeFromMonochrome(col);
-                break;  
+                cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.15f, 0.3f);
+               cr.brightnessConstraint = ofVec2f(0.7f, 1.0f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.2f, 0.2f); //default
+               cr.white  = ofVec2f(1.0f, 1.0f);
+               cr.name = "weak";
+                break;   
             case CT_NEUTRAL:
-                new ColorRange(null,new FloatRange(0.25f, 0.35f), new FloatRange(0.3f, 0.7f), null, new FloatRange(0.15f, 0.15f), new FloatRange(0.9f, 1), "neutral");
-                list = createRangeFromMonochrome(col);
-                break;  
+               cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.25f, 0.35f);
+               cr.brightnessConstraint = ofVec2f(0.3f, 0.7f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.15f, 0.15f); //default
+               cr.white  = ofVec2f(0.9f, 1.0f);
+               cr.name = "neutral";
+                break;   
             case CT_FRESH:
-                new ColorRange(null, new FloatRange( 0.4f, 0.8f), new FloatRange(0.8f, 1.0f), null, new FloatRange(0.05f, 0.3f), new FloatRange(0.8f, 1.0f), "fresh");
-                list = createRangeFromMonochrome(col);
-                break;  
-            case CT_SOFT:
-                new ColorRange(null, new FloatRange(0.2f, 0.3f), new FloatRange(0.6f, 0.9f), null, new FloatRange(0.05f, 0.15f), new FloatRange(0.6f, 0.9f), "soft");
-
-                list = createRangeFromMonochrome(col);
+                cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.4f, 0.8f);
+               cr.brightnessConstraint = ofVec2f(0.8f, 1.0f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.05f, 0.3f); //default
+               cr.white  = ofVec2f(0.8f, 1.0f);
+               cr.name = "fresh";
+                break; 
+           case CT_SOFT:
+                cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.2f, 0.3f);
+               cr.brightnessConstraint = ofVec2f(0.6f, 0.9f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.05f, 0.15f); //default
+               cr.white  = ofVec2f(0.6f, 0.9f);
+               cr.name = "soft";
                 break;  
             case CT_HARD:
-                new ColorRange(null, new FloatRange( 0.9f, 1.0f), new FloatRange(0.4f, 1.0f), "hard");
-
-                list = createRangeFromMonochrome(col);
-                break;  
+                cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.9f, 1.0f);
+               cr.brightnessConstraint = ofVec2f(0.4f, 1.0f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.0f, 0.0f); 
+               cr.white  = ofVec2f(1.0f, 1.0f);
+               cr.name = "hard";
+                break;   
             case CT_WARM:
-                new ColorRange(null, new FloatRange(0.6f, 0.9f), new FloatRange(0.4f, 0.9f), null, new FloatRange(0.2f,0.2f), new FloatRange(0.8f, 1.0f), "warm");
-
-                list = createRangeFromMonochrome(col);
-                break;  
+                cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.6f, 0.9f);
+               cr.brightnessConstraint = ofVec2f(0.4f, 0.9f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.2f, 0.2f); //default
+               cr.white  = ofVec2f(0.8f, 1.0f);
+               cr.name = "warm";
+                break;   
             case CT_COOL:
-                new ColorRange(null, new FloatRange( 0.05f, 0.2f), new FloatRange(0.9f, 1.0f), null, null, new FloatRange(0.95f, 1.0f), "cool");
-
-                list = createRangeFromMonochrome(col);
-                break;  
+                cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.05f, 0.2f);
+               cr.brightnessConstraint = ofVec2f(0.9f, 1.0f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.0f, 0.0f); //default
+               cr.white  = ofVec2f(0.95f, 1.0f);
+               cr.name = "cool";
+                break;   
             case CT_INTENSE:
-                new ColorRange(null,new FloatRange(0.9f, 1.0f), new FloatRange(0.2f, 0.35f), "intense").addBrightnessRange(new FloatRange(0.8f, 1.0f));
-                list = createRangeFromMonochrome(col);
-                break; */
+                cr.hueConstraint = ofVec2f(0.0f, 1.0f); //default if null
+			   cr.saturationConstraint = ofVec2f(0.9f, 1.0f);
+               cr.brightnessConstraint = ofVec2f(0.2f, 0.35f);
+               cr.alphaConstraint = ofVec2f(1.0f, 1.0f); //default
+               cr.black = ofVec2f(0.0f, 0.0f); //default
+               cr.white  = ofVec2f(1.0f, 1.0f);
+               cr.name = "intense";
+                break; 
             default:
+				printf("range choice not available\n");
                 break;
         }
         return cr;
