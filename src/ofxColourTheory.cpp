@@ -38,7 +38,7 @@ vector<ofColor> ofxColourTheory::createColoursFromStrategy(ofColor col,ColourStr
             break;   
             
         default:
-			//DEBUG:: return error on unimplemented strategies
+			printf("stratedgy not currently available \n");
             break;
     }
     return list;
