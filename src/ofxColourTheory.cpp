@@ -9,6 +9,7 @@
 
 #include "ofxColourTheory.h"
 
+ofxColourTheory::ofxColourTheory(){};
 
 
 vector<ofColor> ofxColourTheory::createColoursFromStrategy(ofColor col,ColourStrategy cs){
@@ -37,6 +38,7 @@ vector<ofColor> ofxColourTheory::createColoursFromStrategy(ofColor col,ColourStr
             break;   
             
         default:
+			printf("stratedgy not currently available \n");
             break;
     }
     return list;
@@ -329,7 +331,7 @@ vector<ofColor> ofxColourTheory::getColors(ofColor c, int num, float variance, o
 
 vector<ofColor> ofxColourTheory::getRange(vector<ofColor> cols, int num, float variance, ofVec2f hueConstraint,ofVec2f saturationConstraint,ofVec2f brightnessConstraint,ofVec2f alphaConstraint) {
     vector<ofColor> list;
-    int numPerRange = (int)floor(num/cols.size());
+    int numPerRange = (int)floor(float(num/cols.size()));
     for (int i = 0; i < cols.size()-1; i++) {
         //check out this vector concat!
         //todo..fix vector length
