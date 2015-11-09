@@ -141,9 +141,10 @@ class ofxColourTheory {
         return abs(ofRandomf() * 2.0f) - 1.0f;
     }
     
-    //ofFloatColor would have been good alternative to keep 0-1 range
+    //updated Aug 30, 2015 to keep 0-1 range
     static float luminance(ofColor col) {
-        return col.r * 0.299f *255+ col.g * 0.587f *255+ col.b * 0.114f*255;
+        float tot = 255* 0.299f + 255* 0.587f+255 * 0.114f;
+        return (col.r * 0.299f + col.g * 0.587f + col.b * 0.114f)/tot;
     }
     
     
@@ -505,8 +506,34 @@ class ofxColourTheory {
     }
     
     
+    //util funcs for converting between web standard colour format
+    /*
+    Eg.
+    ofColor hCol;
+    ofxColourTheory::hexToColor(hCol,"6400FF");
+    cout<<ofxColourTheory::colorToHex(ofColor(100,0,255))<<" "<< hCol<<endl;
+    */
     
+    static int stringToHex(string hex){
+        int aHex;
+        stringstream convert(hex);
+        convert >> std::hex >> aHex;
+        return aHex;
+    }
     
+    static void hexToColor(ofColor &col,string hex){
+        string r = hex.substr(0,2);
+        int ri = ofxColourTheory::stringToHex(r);
+        string g = hex.substr(2,2);
+        int gi = ofxColourTheory::stringToHex(g);
+        string b = hex.substr(4,2);
+        int bi = ofxColourTheory::stringToHex(b);
+        col.set(ri,gi,bi);
+    }
+    
+    static string colorToHex(ofColor col){
+        return ofToUpper(ofToHex(col.r)+ofToHex(col.g)+ofToHex(col.b));
+    }
 };
 
 #endif
